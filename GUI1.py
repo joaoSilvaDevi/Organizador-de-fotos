@@ -3,6 +3,8 @@ from PIL import Image, ImageTk
 import io, base64, glob
 import glob
 
+error1 = 0
+
 def new_layout(i): # CRIA UMA NOVA DIVISÃO
     return [[sg.T("Divisão: "), sg.InputText(key=("-q-", i))]]
 
@@ -22,7 +24,7 @@ def load_images(path, window):
         photo_img = ImageTk.PhotoImage(image)
         window["image"].update(data=photo_img)
     except:
-        return
+        return error1 == 1
 
 
 #ICONE DE PLUS
@@ -36,7 +38,7 @@ img_b64 = base64.b64encode(buffer.getvalue())
 
 #COLUNA BASE
 column_layout = [
-    [sg.T("Divisão: "), sg.InputText(key=("-q-", 0)),
+    [sg.T("Divisão: "), sg.InputText(key=("-DIV-", 0)),
     sg.Button(enable_events=True, image_data=img_b64, key="-plus-", image_size=(20,20), size=(20,20))]
 ]
 
@@ -47,7 +49,16 @@ layout1 = [ #ADICIONA DIVISÃO
 ]
 
 layout2 = [ #REALIZA A ORGANIZAÇÃO
-    [sg.Button("OK")]
+    [
+        sg.Text("Selecione a pasta das fotos: "),
+        sg.Input(size=(25,1), enable_events=True, key='-INP-' ),
+        sg.FolderBrowse() 
+    ],
+    [
+        sg.Text("Selecione a pasta destino: "),
+        sg.Input(size=(25,1), enable_events=True, key="-OUT-"),
+        sg.FolderBrowse()
+    ]
 ]
 
 # ----------- Cria um layout atual onde altera com os butões
