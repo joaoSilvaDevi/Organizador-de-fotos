@@ -6,7 +6,7 @@ import glob
 error1 = 0
 
 def new_layout(i): # CRIA UMA NOVA DIVISÃO
-    return [[sg.T("Divisão: "), sg.InputText(key=("-q-", i))]]
+    return [[sg.T("Divisão: "), sg.InputText(key=("-DIV-", i))]]
 
 extensions = [
     "jpg",
@@ -82,7 +82,7 @@ while True:
             sg.popup("Maximo de divisões inseridas")
     elif event == "OK":
         window[f'-COL{layout}-'].update(visible=False)
-        layout = layout + 1 if layout < 2 else 1
+        layout = layout + 1 
         window[f'-COL{layout}-'].update(visible=True)
     
     print(event, values)
