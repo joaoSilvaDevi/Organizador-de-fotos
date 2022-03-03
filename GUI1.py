@@ -1,11 +1,28 @@
-from email.mime import base
 import PySimpleGUI as sg
-from PIL import Image
-import io
-import base64
+from PIL import Image, ImageTk
+import io, base64, glob
+import glob
 
 def new_layout(i): # CRIA UMA NOVA DIVISÃO
     return [[sg.T("Divisão: "), sg.InputText(key=("-q-", i))]]
+
+extensions = [
+    "jpg",
+    "png"
+    "jpeg"
+]
+
+def parse_folder(path):
+    images = glob.glob(f"{path}/.{extensions}")
+
+def load_images(path, window):
+    try:
+        image = Image.open(path)
+        image.thumbnail((400,400))
+        photo_img = ImageTk.PhotoImage(image)
+        window["image"].update(data=photo_img)
+    except:
+        return
 
 
 #ICONE DE PLUS
@@ -24,12 +41,12 @@ column_layout = [
 ]
 
 # ----------- Layouts a serem exibidos ----------- 
-layout1 = [
+layout1 = [ #ADICIONA DIVISÃO
     [sg.Column(column_layout, key='-Column-')],
     [sg.Submit(button_text="OK"), sg.Cancel(button_text="Cancel")],
 ]
 
-layout2 = [
+layout2 = [ #REALIZA A ORGANIZAÇÃO
     [sg.Button("OK")]
 ]
 
