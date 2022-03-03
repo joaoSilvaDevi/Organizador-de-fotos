@@ -23,24 +23,40 @@ column_layout = [
     sg.Button(enable_events=True, image_data=img_b64, key="-plus-", image_size=(20,20), size=(20,20))]
 ]
 
-#LAYOUT #1
-layout = [
+# ----------- Layouts a serem exibidos ----------- 
+layout1 = [
     [sg.Column(column_layout, key='-Column-')],
-    [sg.Submit(button_text="Update/Insert"), sg.Cancel(button_text="Cancel")],
+    [sg.Submit(button_text="OK"), sg.Cancel(button_text="Cancel")],
+]
+
+layout2 = [
+    [sg.Button("OK")]
+]
+
+# ----------- Cria um layout atual onde altera com os butões
+
+layout = [
+    [sg.Column(layout1, key='-COL1-'), sg.Column(layout2, visible=False, key='-COL2-')]
 ]
 
 window = sg.Window("Adicionar organizadores", layout)
 i = 1
+layout = 1
 while True:
     event, values = window.read()
     if event in (sg.WIN_CLOSED, 'Exit', 'Cancel'):
         break
-    elif event == '-plus-':
+    if event == '-plus-':
         if i<5:
             window.extend_layout(window['-Column-'], new_layout(i))
             i += 1
         if i == 5:
             sg.popup("Maximo de divisões inseridas")
+    elif event == "OK":
+        window[f'-COL{layout}-'].update(visible=False)
+        layout = layout + 1 if layout < 2 else 1
+        window[f'-COL{layout}-'].update(visible=True)
+    
     print(event, values)
 
 event, values = window.read()
