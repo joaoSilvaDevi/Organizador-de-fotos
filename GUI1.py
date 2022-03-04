@@ -5,6 +5,8 @@ import glob
 
 error1 = 0
 
+sg.theme('DarkAmber') 
+
 def new_button(div):
     return [[sg.Button(f"{div}")]]
 
@@ -89,22 +91,6 @@ while True:
         window[f'-COL{layout}-'].update(visible=False)
         layout = layout + 1 
         window[f'-COL{layout}-'].update(visible=True)
-        div1 = values["-DIV-", 0]
-        div2 = values["-DIV-", 1]
-        div3 = values["-DIV-", 2]
-        div4 = values["-DIV-", 3]
-        div5 = values["-DIV-", 4]
-
-        divisions = (
-            div1,
-            div2,
-            div3,
-            div4,
-            div5
-        )
-        for div in divisions:
-            new_button(div)
-            
 
     
     print(values, event)
