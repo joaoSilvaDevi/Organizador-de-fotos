@@ -5,7 +5,8 @@ import glob
 
 error1 = 0
 
-sg.theme('DarkAmber') 
+sg.theme('DarkAmber')
+
 
 def new_button(div):
     return [[sg.Button(f"{div}")]]
@@ -91,8 +92,9 @@ while True:
         window[f'-COL{layout}-'].update(visible=False)
         layout = layout + 1 
         window[f'-COL{layout}-'].update(visible=True)
+        for x in range(0, i):
+            print(values[("-DIV-"), x])
 
-    
     print(values, event)
 
 event, values = window.read()
