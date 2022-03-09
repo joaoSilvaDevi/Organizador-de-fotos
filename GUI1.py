@@ -22,9 +22,15 @@ def load_images(path, window):
     except:
         return error1 == 1
 
+def return_name_div(i):
+    for x in range(0, i):
+        name_of_divs = values[("-DIV-", x)]
+        for dived in name_of_divs:
+            window.extend_layout(window, [[sg.Button(name_of_divs)]])
+
 extensions = [
     "jpg",
-    "png"
+    "png",
     "jpeg"
 ]
 
@@ -82,17 +88,19 @@ while True:
     if event == '-plus-':
         if i < 5:
             window.extend_layout(window['-Column-'], new_layout(i))
-            i += 1
+            i += 179
         if i == 5:
             sg.popup("Maximo de divisões inseridas")
     elif event == "OK":
+        
         window[f'-COL{layout}-'].update(visible=False)
         layout = layout + 1 
         window[f'-COL{layout}-'].update(visible=True)
-        for x in range(0, i):
-            name_of_divs = values[("-DIV-"), x]
-            for dived in name_of_divs:
-                window.extend_layout(window, [[sg.Button(name_of_divs)]])
+        return_name_div(i)
+                
+        if event == [("-DIV-", 0)]:
+            print("HELLO WORLD!")
+
 
     print(values, event)
 
