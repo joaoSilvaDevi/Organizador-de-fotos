@@ -1,3 +1,4 @@
+from optparse import AmbiguousOptionError
 import PySimpleGUI as sg
 from PIL import Image, ImageTk
 import io, base64, glob
@@ -22,8 +23,8 @@ def load_images(path, window):
     except:
         return error1 == 1
 
-def return_name_div(i):
-    for x in range(0, i):
+def return_name_div(y):
+    for x in range(0, y):
         name_of_divs = values[("-DIV-", x)]
         for dived in name_of_divs:
             window.extend_layout(window, [[sg.Button(name_of_divs)]])
@@ -77,7 +78,7 @@ layout = [
 ]
 
 window = sg.Window("Adicionar organizadores", layout)
-i = 1
+aumount_divs = 1
 layout = 1
 name_of_divs = []
 
@@ -86,17 +87,17 @@ while True:
     if event in (sg.WIN_CLOSED, 'Exit', 'Cancel'):
         break
     if event == '-plus-':
-        if i < 5:
+        if aumount_divs < 5:
             window.extend_layout(window['-Column-'], new_layout(i))
-            i += 179
-        if i == 5:
+            aumount_divs += 1
+        if aumount_divs == 5:
             sg.popup("Maximo de divisões inseridas")
     elif event == "OK":
         
         window[f'-COL{layout}-'].update(visible=False)
         layout = layout + 1 
         window[f'-COL{layout}-'].update(visible=True)
-        return_name_div(i)
+        return_name_div(aumount_divs)
                 
         if event == [("-DIV-", 0)]:
             print("HELLO WORLD!")
