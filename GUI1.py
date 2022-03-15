@@ -75,7 +75,7 @@ layout = [
 window = sg.Window("Adicionar organizadores", layout)
 aumount_divs = 1
 layout = 1
-
+name_of_divs = []
 while True:
     event, values = window.read()
     if event in (sg.WIN_CLOSED, 'Exit', 'Cancel'):
@@ -92,7 +92,11 @@ while True:
         layout = layout + 1 
         window[f'-COL{layout}-'].update(visible=True)
         
-
+        for x in range(0, aumount_divs):
+            qnt_divs = values[("-DIV-"), x]
+            for dived in qnt_divs:
+                window.extend_layout(window, [[sg.Button(qnt_divs)]])
+                name_of_divs.append(qnt_divs)
 
 
     print(values, event)
