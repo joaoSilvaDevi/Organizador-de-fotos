@@ -1,14 +1,10 @@
-from optparse import AmbiguousOptionError
 import PySimpleGUI as sg
 from PIL import Image, ImageTk
 import io, base64, glob
-import glob
-
-error1 = 0
 
 sg.theme('DarkAmber')
 
-def new_layout(i): # CRIA UMA NOVA DIVISÃO
+def new_layout(i):
     return [[sg.T("Divisão: "), sg.InputText(key=("-DIV-", i))]]
 
 def parse_folder(path):
@@ -21,16 +17,11 @@ def load_images(path, window):
         photo_img = ImageTk.PhotoImage(image)
         window["image"].update(data=photo_img)
     except:
-        return error1 == 1
+        return
 
 def creat_div(name_of_divs):
     for dived in name_of_divs:
         window.extend_layout(window, [[sg.Button(name_of_divs)]])
-
-def return_name_div(aumont):
-    name_of_divs = []
-    for x in range(0, aumont):
-        name_of_divs.append(values[("-DIV-", x)])
 
 
 extensions = [
@@ -93,17 +84,15 @@ while True:
         if aumount_divs < 5:
             window.extend_layout(window['-Column-'], new_layout(aumount_divs))
             aumount_divs += 1
+
         if aumount_divs == 5:
             sg.popup("Maximo de divisões inseridas")
-    elif event == "OK":
-        
+    elif event == "OK":       
         window[f'-COL{layout}-'].update(visible=False)
         layout = layout + 1 
         window[f'-COL{layout}-'].update(visible=True)
-        return_name_div(aumount_divs)
-                
-        if event == [("-DIV-", 0)]:
-            print("HELLO WORLD!")
+        
+
 
 
     print(values, event)
