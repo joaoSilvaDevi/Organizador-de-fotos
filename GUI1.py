@@ -91,12 +91,13 @@ while True:
         window[f'-COL{layout}-'].update(visible=False)
         layout = layout + 1 
         window[f'-COL{layout}-'].update(visible=True)
-        
+
         for x in range(0, aumount_divs):
             qnt_divs = values[("-DIV-"), x]
             for dived in qnt_divs:
                 window.extend_layout(window, [[sg.Button(qnt_divs)]])
                 name_of_divs.append(qnt_divs)
+                name_of_divs[1:]
 
 
     print(values, event)
