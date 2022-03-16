@@ -19,10 +19,6 @@ def load_images(path, window):
     except:
         return
 
-def creat_div(name_of_divs):
-    for dived in name_of_divs:
-        window.extend_layout(window, [[sg.Button(name_of_divs)]])
-
 
 extensions = [
     "jpg",
@@ -72,6 +68,7 @@ layout = [
     [sg.Column(layout1, key='-COL1-'), sg.Column(layout2, visible=False, key='-COL2-')]
 ]
 
+
 window = sg.Window("Adicionar organizadores", layout)
 aumount_divs = 1
 layout = 1
@@ -86,18 +83,21 @@ while True:
             aumount_divs += 1
 
         if aumount_divs == 5:
-            sg.popup("Maximo de divisões inseridas")
+            sg.popup("Maximo de divisões inseridas") # MAX OF DIVS
     elif event == "OK":       
         window[f'-COL{layout}-'].update(visible=False)
         layout = layout + 1 
         window[f'-COL{layout}-'].update(visible=True)
+        
 
-        for x in range(0, aumount_divs):
+        for x in range(0, aumount_divs): #ADD DIVISIONS
             qnt_divs = values[("-DIV-"), x]
             for dived in qnt_divs:
                 window.extend_layout(window, [[sg.Button(qnt_divs)]])
                 name_of_divs.append(qnt_divs)
                 name_of_divs[1:]
+
+        print(values[("-DIV-", 0)])
 
 
     print(values, event)
