@@ -1,6 +1,6 @@
 import PySimpleGUI as sg
 from PIL import Image, ImageTk
-import io, base64, glob
+import io, base64, glob, shutil, os
 
 sg.theme('DarkAmber')
 
@@ -18,6 +18,9 @@ def load_images(path, window):
         window["image"].update(data=photo_img)
     except:
         return
+
+def move_photo(divsion):
+    pass
 
 
 extensions = [
@@ -49,14 +52,17 @@ layout1 = [ #ADICIONA DIVISÃO
 
 layout2 = [ #Seleciona as pastas
     [
-        sg.Text("Selecione a pasta das fotos: "),
+        sg.Text("Selecione a pasta das fotos: "), #SELECT FOLDER WHERE ARE THE PHOTOS
         sg.Input(size=(25,1), enable_events=True, key='-INP-' ),
         sg.FolderBrowse() 
     ],
     [
-        sg.Text("Selecione a pasta destino: "),
-        sg.Input(size=(25,1), enable_events=True, key="-OUT-"),
+        sg.Text("Selecione a pasta destino: "), #SELECT WHERE YOU WANT YOUR PHOTOS
+        sg.Input(size=(25,1), enable_events=True, key="-folder-"),
         sg.FolderBrowse()
+    ],
+    [
+        sg.Image(key="image")
     ]
 ]
 
@@ -69,10 +75,11 @@ layout = [
 ]
 
 
-window = sg.Window("Adicionar organizadores", layout)
+window = sg.Window("Adicionar organizadores", layout, resizable=True)
 aumount_divs = 1
 layout = 1
 name_of_divs = []
+location = 0
 while True:
     event, values = window.read()
     if event in (sg.WIN_CLOSED, 'Exit', 'Cancel'):
@@ -83,19 +90,28 @@ while True:
             aumount_divs += 1
 
         if aumount_divs == 5:
-            sg.popup("Maximo de divisões inseridas") # MAX OF DIVS
+            sg.popup("Maximo de divisões inseridas") # MAX OF DIVS ADD
     elif event == "OK":       
         window[f'-COL{layout}-'].update(visible=False)
         layout = layout + 1 
         window[f'-COL{layout}-'].update(visible=True)
         
-
-        for x in range(0, aumount_divs): #ADD DIVISIONS
+        for x in range(0, aumount_divs): #ADD DIVISION LIST
             qnt_divs = values[("-DIV-"), x]
             for dived in qnt_divs:
                 window.extend_layout(window, [[sg.Button(qnt_divs)]])
                 name_of_divs.append(qnt_divs)
                 name_of_divs[1:]
+
+        if event == "-folder-":
+            root_path = (values["-folder-"])          
+            for folder in name_of_divs:
+                os.mkdir(os.path.join(root_path, str(folder)))
+
+        if event == "-INP-":
+            images = parse_folder(values["-INP-"])
+            if images:
+                load_images(images[0], window)
 
         print(values[("-DIV-", 0)])
 
